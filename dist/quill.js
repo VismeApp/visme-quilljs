@@ -6082,11 +6082,19 @@ var StyleAttributor = /** @class */ (function (_super) {
         // @ts-ignore
         var value = node.style[camelize(this.keyName)];
 
-		// visme start
-        if (value.indexOf(',') > -1) {
-	        value = value.split(',')[0]
+        // visme start
+        function takeFirstFontFamily (fontFamilyString) {
+            if (fontFamilyString.indexOf(',') > -1) {
+                return fontFamilyString.split(',')[0];
+            }
+
+            return fontFamilyString;
         }
-        value = value.replace(/""/g, '"')
+        if (this.keyName === 'font-family') {
+            value = takeFirstFontFamily(value);
+        }
+
+        value = value.replace(/""/g, '"');
         // visme end
 
         return this.canAdd(node, value) ? value : '';
