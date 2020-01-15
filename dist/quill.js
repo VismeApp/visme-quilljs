@@ -178,7 +178,7 @@ function create(input, value) {
         throw new ParchmentError("Unable to create " + input + " blot");
     }
     var BlotClass = match;
-    var node = 
+    var node =
     // @ts-ignore
     input instanceof Node || input['nodeType'] === Node.TEXT_NODE ? input : BlotClass.create(value);
     return new BlotClass(node, value);
@@ -6082,11 +6082,13 @@ var StyleAttributor = /** @class */ (function (_super) {
         // @ts-ignore
         var value = node.style[camelize(this.keyName)];
 
-		// visme
+		// visme start
         if (value.indexOf(',') > -1) {
 	        value = value.split(',')[0]
         }
         value = value.replace(/""/g, '"')
+        // visme end
+
         return this.canAdd(node, value) ? value : '';
     };
     return StyleAttributor;
@@ -6410,13 +6412,18 @@ var FontStyleAttributor = function (_Parchment$Attributor) {
   _createClass(FontStyleAttributor, [{
     key: 'value',
     value: function value(node) {
-	    
-	   // visme 
-	   var fnt = _get(FontStyleAttributor.prototype.__proto__ || Object.getPrototypeOf(FontStyleAttributor.prototype), 'value', this).call(this, node).replace(/["']/g, '')
-	   
+	   var fnt = _get(
+	       FontStyleAttributor.prototype.__proto__ || Object.getPrototypeOf(FontStyleAttributor.prototype),
+           'value',
+           this
+       ).call(this, node).replace(/["']/g, '');
+
+	    // visme start
 	    if (/\d/.test(fnt)) {
           fnt = '"' + fnt + '"';
-        } 
+        }
+        // visme end
+
        return fnt;
     }
   }]);
