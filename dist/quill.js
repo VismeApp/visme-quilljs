@@ -6067,6 +6067,11 @@ var StyleAttributor = /** @class */ (function (_super) {
     StyleAttributor.prototype.add = function (node, value) {
         if (!this.canAdd(node, value))
             return false;
+	// visme-start
+	if (this.keyName === 'font-family' && (/\d/.test(value) || /[.,!?]/.test(value) ) && value.indexOf('"') === -1 ) {
+          value = '"' + value + '"'
+        }        
+	// visme-end
         // @ts-ignore
         node.style[camelize(this.keyName)] = value;
         return true;
